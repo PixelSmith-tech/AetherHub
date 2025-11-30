@@ -122,7 +122,7 @@ Prison Life is a legendary Roblox prison simulator, and Aether Hub enhances PvP 
 
 ## 🌐 Community & Links
 ### Join us & stay updated:
-- 🔗 **Discord:** https://discord.gg/qnaMGJ9tHQ  
+- 🔗 **Discord:** https://discord.gg/rgCNqRnvMw  
 - 🌐 **Website:** https://pixelsmith.tech  
 
 ---
