@@ -12,10 +12,19 @@
 
 ## 🎮 Supported Games
 - **Flick** — Roblox FPS place
+- **Aimblox** — Just FPS
+- **Arsenal** — most legendary game about the arms race
+- **Gun Grounds FFA** — Just a shooter
+- **Prison Life** — most popular prison simulator
 
 ## 🛠️ In Development
-- **Arsenal**
 - **Energy Assault**
+- **Counter Blox**
+- **Arcade No-scope**
+- **Riatfoll*
+- **The Lost Front**
+- **Phantom Forces**
+- **Deadline**
 
 ---
 
@@ -32,13 +41,82 @@ Flick is a Roblox FPS place, and Aether Hub currently provides one of the most a
 - **ESP Tracers**
 - **RGB ESP**
 
+
+---
+
+## 🎯 Aimblox Cheat
+Aimblox is a dynamic FPS-focused Roblox game, and Aether Hub delivers a stable, optimized cheat tailored specifically for fast-paced gunfights.
+
+### **Features**
+- **Aimlock with adjustable FOV**
+- **Silent Aimbot**
+- **ESP** (Boxes, Names, Health, Distance)
+- **X-Ray Vision**
+- **SpinBot**
+- **Auto-Shoot**
+- **ESP Tracers**
+- **RGB ESP**
+
+
+
+---
+
+## 🎯 Arsenal Cheat
+Arsenal is one of Roblox’s most iconic shooting games, and Aether Hub provides a clean, fast, and reliable cheat for maximum performance.
+
+### **Features**
+- **Aimlock with adjustable FOV**
+- **Silent Aimbot**
+- **ESP** (Boxes, Names, Health, Distance)
+- **X-Ray Vision**
+- **SpinBot**
+- **Auto-Shoot**
+- **ESP Tracers**
+- **RGB ESP**
+
+
+
+---
+
+## 🎯 Gun Grounds FFA Cheat
+Gun Grounds FFA is a free-for-all arena shooter, and Aether Hub offers an optimized cheating experience that boosts your reaction time and awareness.
+
+### **Features**
+- **Aimlock with adjustable FOV**
+- **Silent Aimbot**
+- **ESP** (Boxes, Names, Health, Distance)
+- **X-Ray Vision**
+- **SpinBot**
+- **Auto-Shoot**
+- **ESP Tracers**
+- **RGB ESP**
+
+
+
+---
+
+## 🎯 Prison Life Cheat
+Prison Life is a legendary Roblox prison simulator, and Aether Hub enhances PvP encounters with powerful and clean FPS features.
+
+### **Features**
+- **Aimlock with adjustable FOV**
+- **Silent Aimbot**
+- **ESP** (Boxes, Names, Health, Distance)
+- **X-Ray Vision**
+- **SpinBot**
+- **Auto-Shoot**
+- **ESP Tracers**
+- **RGB ESP**
+
+
+
 ---
 
 ## 💡 General Information
-- **No key required** — plug and play.
+- **Key required** — Join our Discord server to get the key.
 - **Supports most injectors**, including **Xeno**.
 - **Regular updates** to improve stability and bypass patches.
-- **Custom UI:** Aether Hub uses **AetherUI**, built on top of **Luna UI** with custom improvements.
+- **The best UI:** Aether Hub uses **Rayfield UI**, which is the most popular in the field of scripts and the most beautiful.
 
 ---
 
