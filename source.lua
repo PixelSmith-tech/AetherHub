@@ -1753,28 +1753,62 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 		if typeof(Settings.KeySettings.Key) == "string" then Settings.KeySettings.Key = {Settings.KeySettings.Key} end
 
-if Settings.KeySettings.GrabKeyFromSite then
-    local newKeys = {}
-    for i, Key in ipairs(Settings.KeySettings.Key) do
-        local Success, Response = pcall(function()
-            local raw = game:HttpGet(Key)
-            local keys = string.split(raw, "\n")
-            for _, k in ipairs(keys) do
-                local trimmed = k:gsub("%s+", "")
-                if trimmed ~= "" then
-                    table.insert(newKeys, trimmed)
+-- Новый валидатор ключей
+local function IsValidKey(input)
+    if Settings.KeySettings.GrabKeyFromSite then
+        for i, Key in ipairs(Settings.KeySettings.Key) do
+            local Success, Response = pcall(function()
+                local raw = game:HttpGet(Key)
+                local keys = string.split(raw, "\n")
+                for _, k in ipairs(keys) do
+                    local trimmed = k:gsub("%s+", "")
+                    if trimmed == input then
+                        return true
+                    end
                 end
+                return false
+            end)
+            if Success and Response == true then
+                return true
             end
-        end)
-        if not Success then
-            print("Rayfield | "..Key.." Error " ..tostring(Response))
-            warn('Check docs.sirius.menu for help with Rayfield specific development.')
         end
+        return false
+    else
+        for _, k in ipairs(Settings.KeySettings.Key) do
+            if k == input then
+                return true
+            end
+        end
+        return false
     end
-    -- Обновляем список ключей каждый раз
-    Settings.KeySettings.Key = newKeys
 end
 
+-- Основной блок KeySystem
+if Settings.KeySystem then
+    if not Settings.KeySettings then
+        Passthrough = true
+        return
+    end
+
+    if isfolder and not isfolder(RayfieldFolder.."/Key System") then
+        makefolder(RayfieldFolder.."/Key System")
+    end
+
+    if typeof(Settings.KeySettings.Key) == "string" then
+        Settings.KeySettings.Key = {Settings.KeySettings.Key}
+    end
+
+    if not Settings.KeySettings.FileName then
+        Settings.KeySettings.FileName = "No file name specified"
+    end
+
+    if isfile and isfile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension) then
+        local saved = readfile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension)
+        if IsValidKey(saved) then
+            Passthrough = true
+        end
+    end
+end
 		if not Settings.KeySettings.FileName then
 			Settings.KeySettings.FileName = "No file name specified"
 		end
@@ -3995,6 +4029,7 @@ task.delay(4, function()
 end)
 
 return RayfieldLibrary
+
 
 
 
