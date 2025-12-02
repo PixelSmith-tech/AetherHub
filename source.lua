@@ -1754,6 +1754,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 		if typeof(Settings.KeySettings.Key) == "string" then Settings.KeySettings.Key = {Settings.KeySettings.Key} end
 
 -- Новый валидатор ключей
+-- Валидатор ключей
 local function IsValidKey(input)
     if Settings.KeySettings.GrabKeyFromSite then
         for i, Key in ipairs(Settings.KeySettings.Key) do
@@ -1783,6 +1784,33 @@ local function IsValidKey(input)
     end
 end
 
+-- Автообновление базы каждые 10 секунд
+task.spawn(function()
+    while true do
+        task.wait(10)
+        if Settings.KeySettings.GrabKeyFromSite then
+            local newKeys = {}
+            for i, Key in ipairs(Settings.KeySettings.Key) do
+                local Success, Response = pcall(function()
+                    local raw = game:HttpGet(Key)
+                    local keys = string.split(raw, "\n")
+                    for _, k in ipairs(keys) do
+                        local trimmed = k:gsub("%s+", "")
+                        if trimmed ~= "" then
+                            table.insert(newKeys, trimmed)
+                        end
+                    end
+                end)
+                if not Success then
+                    print("Rayfield | "..Key.." Error " ..tostring(Response))
+                    warn('Check docs.sirius.menu for help with Rayfield specific development.')
+                end
+            end
+            Settings.KeySettings.Key = newKeys
+        end
+    end
+end)
+
 -- Основной блок KeySystem
 if Settings.KeySystem then
     if not Settings.KeySettings then
@@ -1808,7 +1836,6 @@ if Settings.KeySystem then
             Passthrough = true
         end
     end
-end
 		if not Settings.KeySettings.FileName then
 			Settings.KeySettings.FileName = "No file name specified"
 		end
@@ -4029,6 +4056,7 @@ task.delay(4, function()
 end)
 
 return RayfieldLibrary
+
 
 
 
