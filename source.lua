@@ -1741,77 +1741,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 		end
 	end
 
-	if (Settings.KeySystem) then
-		if not Settings.KeySettings then
-			Passthrough = true
-			return
-		end
-
-		if isfolder and not isfolder(RayfieldFolder.."/Key System") then
-			makefolder(RayfieldFolder.."/Key System")
-		end
-
-		if typeof(Settings.KeySettings.Key) == "string" then Settings.KeySettings.Key = {Settings.KeySettings.Key} end
-
--- Новый валидатор ключей
--- Валидатор ключей
-local function IsValidKey(input)
-    if Settings.KeySettings.GrabKeyFromSite then
-        for i, Key in ipairs(Settings.KeySettings.Key) do
-            local Success, Response = pcall(function()
-                local raw = game:HttpGet(Key)
-                local keys = string.split(raw, "\n")
-                for _, k in ipairs(keys) do
-                    local trimmed = k:gsub("%s+", "")
-                    if trimmed == input then
-                        return true
-                    end
-                end
-                return false
-            end)
-            if Success and Response == true then
-                return true
-            end
-        end
-        return false
-    else
-        for _, k in ipairs(Settings.KeySettings.Key) do
-            if k == input then
-                return true
-            end
-        end
-        return false
-    end
-end
-
--- Автообновление базы каждые 10 секунд
-task.spawn(function()
-    while true do
-        task.wait(10)
-        if Settings.KeySettings.GrabKeyFromSite then
-            local newKeys = {}
-            for i, Key in ipairs(Settings.KeySettings.Key) do
-                local Success, Response = pcall(function()
-                    local raw = game:HttpGet(Key)
-                    local keys = string.split(raw, "\n")
-                    for _, k in ipairs(keys) do
-                        local trimmed = k:gsub("%s+", "")
-                        if trimmed ~= "" then
-                            table.insert(newKeys, trimmed)
-                        end
-                    end
-                end)
-                if not Success then
-                    print("Rayfield | "..Key.." Error " ..tostring(Response))
-                    warn('Check docs.sirius.menu for help with Rayfield specific development.')
-                end
-            end
-            Settings.KeySettings.Key = newKeys
-        end
-    end
-end)
-
--- Основной блок KeySystem
+	-- Нормализация настроек и подготовка папки
 if Settings.KeySystem then
     if not Settings.KeySettings then
         Passthrough = true
@@ -1829,24 +1759,87 @@ if Settings.KeySystem then
     if not Settings.KeySettings.FileName then
         Settings.KeySettings.FileName = "No file name specified"
     end
+end
 
-    if isfile and isfile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension) then
-        local saved = readfile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension)
-        if IsValidKey(saved) then
-            Passthrough = true
+-- Разделяем источники (URL или локальные значения) и кеш актуальных ключей
+local KeySources = Settings.KeySettings and Settings.KeySettings.Key or {}
+local KeyCache = {}
+
+-- Обновление кеша ключей
+local function RefreshKeys()
+    if not Settings.KeySettings then return end
+
+    if Settings.KeySettings.GrabKeyFromSite then
+        local newKeys = {}
+        for _, url in ipairs(KeySources) do
+            local ok, body = pcall(function()
+                return game:HttpGet(url)
+            end)
+            if ok and type(body) == "string" then
+                local lines = string.split(body, "\n")
+                for _, line in ipairs(lines) do
+                    local k = line:gsub("%s+", "")
+                    if k ~= "" then
+                        table.insert(newKeys, k)
+                    end
+                end
+            else
+                print("Rayfield | HttpGet error for URL: "..tostring(url).." -> "..tostring(body))
+                -- Не падаем, просто оставляем кеш как есть
+            end
+        end
+        KeyCache = newKeys
+    else
+        -- Локальный режим: ключи заданы прямо в настройках
+        local newKeys = {}
+        for _, k in ipairs(KeySources) do
+            local trimmed = (type(k) == "string") and k:gsub("%s+", "") or ""
+            if trimmed ~= "" then
+                table.insert(newKeys, trimmed)
+            end
+        end
+        KeyCache = newKeys
+    end
+end
+
+-- Валидатор: проверка введённого ключа по актуальному кешу
+local function IsValidKey(input)
+    if type(input) ~= "string" or input == "" then return false end
+
+    if #KeyCache == 0 then
+        RefreshKeys()
+    end
+
+    local probe = input:gsub("%s+", "")
+    for _, k in ipairs(KeyCache) do
+        if k == probe then
+            return true
         end
     end
-		if not Settings.KeySettings.FileName then
-			Settings.KeySettings.FileName = "No file name specified"
-		end
+    return false
+end
 
-		if isfile and isfile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension) then
-			for _, MKey in ipairs(Settings.KeySettings.Key) do
-				if string.find(readfile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension), MKey) then
-					Passthrough = true
-				end
-			end
-		end
+-- Автообновление кеша каждые 10 секунд (только при GrabKeyFromSite)
+if Settings.KeySystem then
+    RefreshKeys() -- первичная загрузка
+    if Settings.KeySettings.GrabKeyFromSite then
+        task.spawn(function()
+            while true do
+                task.wait(10)
+                RefreshKeys()
+            end
+        end)
+    end
+end
+
+-- Автопасс при валидном сохранённом ключе (без устаревшей string.find)
+if Settings.KeySystem and isfile and isfile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension) then
+    local saved = readfile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension)
+    local savedTrimmed = saved:gsub("%s+", "")
+    if IsValidKey(savedTrimmed) then
+        Passthrough = true
+    end
+end
 
 		if not Passthrough then
 			local AttemptsRemaining = math.random(2, 5)
@@ -4056,6 +4049,7 @@ task.delay(4, function()
 end)
 
 return RayfieldLibrary
+
 
 
 
