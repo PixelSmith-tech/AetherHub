@@ -1754,27 +1754,26 @@ function RayfieldLibrary:CreateWindow(Settings)
 		if typeof(Settings.KeySettings.Key) == "string" then Settings.KeySettings.Key = {Settings.KeySettings.Key} end
 
 if Settings.KeySettings.GrabKeyFromSite then
+    local newKeys = {}
     for i, Key in ipairs(Settings.KeySettings.Key) do
         local Success, Response = pcall(function()
             local raw = game:HttpGet(Key)
-            -- Разбиваем по переносам строк
             local keys = string.split(raw, "\n")
-            local cleaned = {}
             for _, k in ipairs(keys) do
                 local trimmed = k:gsub("%s+", "")
                 if trimmed ~= "" then
-                    table.insert(cleaned, trimmed)
+                    table.insert(newKeys, trimmed)
                 end
             end
-            -- Перезаписываем KeySettings.Key массивом ключей
-            Settings.KeySettings.Key = cleaned
         end)
         if not Success then
             print("Rayfield | "..Key.." Error " ..tostring(Response))
             warn('Check docs.sirius.menu for help with Rayfield specific development.')
         end
     end
-				end
+    -- Обновляем список ключей каждый раз
+    Settings.KeySettings.Key = newKeys
+end
 
 		if not Settings.KeySettings.FileName then
 			Settings.KeySettings.FileName = "No file name specified"
@@ -3996,6 +3995,7 @@ task.delay(4, function()
 end)
 
 return RayfieldLibrary
+
 
 
 
