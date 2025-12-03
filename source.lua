@@ -1751,37 +1751,37 @@ function RayfieldLibrary:CreateWindow(Settings)
 		end
 	end
 
-	if Settings.KeySettings.GrabKeyFromSite then
-    local newKeys = {}
+	if (Settings.KeySystem) then
+  if not Settings.KeySettings then
+   Passthrough = true
+   return
+  end
 
-    local function fetchKeysFrom(urls)
-        for _, Key in ipairs(urls) do
-            local Success, Response = pcall(function()
-                local raw = game:HttpGet(Key)
-                local keys = string.split(raw, "\n")
-                for _, k in ipairs(keys) do
-                    local trimmed = k:gsub("%s+", "")
-                    if trimmed ~= "" then
-                        table.insert(newKeys, trimmed)
-                    end
+  if isfolder and not isfolder(RayfieldFolder.."/Key System") then
+   makefolder(RayfieldFolder.."/Key System")
+  end
+
+  if typeof(Settings.KeySettings.Key) == "string" then Settings.KeySettings.Key = {Settings.KeySettings.Key} end
+
+  if Settings.KeySettings.GrabKeyFromSite then
+    local newKeys = {}
+    for i, Key in ipairs(Settings.KeySettings.Key) do
+        local Success, Response = pcall(function()
+            local raw = game:HttpGet(Key)
+            local keys = string.split(raw, "\n")
+            for _, k in ipairs(keys) do
+                local trimmed = k:gsub("%s+", "")
+                if trimmed ~= "" then
+                    table.insert(newKeys, trimmed)
                 end
-            end)
-            if not Success then
-                print("Rayfield | "..Key.." Error " ..tostring(Response))
-                warn('Check docs.sirius.menu for help with Rayfield specific development.')
             end
+        end)
+        if not Success then
+            print("Rayfield | "..Key.." Error " ..tostring(Response))
+            warn('Check docs.sirius.menu for help with Rayfield specific development.')
         end
     end
-
-    -- fetch normal + vip
-    if Settings.KeySettings.NormalKeySources then
-        fetchKeysFrom(Settings.KeySettings.NormalKeySources)
-    end
-    if Settings.KeySettings.VipKeySources then
-        fetchKeysFrom(Settings.KeySettings.VipKeySources)
-    end
-
-    -- обновляем список ключей
+    -- Обновляем список ключей каждый раз
     Settings.KeySettings.Key = newKeys
 end
 
@@ -4005,4 +4005,5 @@ task.delay(4, function()
 end)
 
 return RayfieldLibrary
+
 
