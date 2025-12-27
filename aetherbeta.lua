@@ -1873,22 +1873,39 @@ end
 
 
 			KeyUI.Main.Input.InputBox.FocusLost:Connect(function()
-				if #KeyUI.Main.Input.InputBox.Text == 0 then return end
-				local KeyFound = false
-				local FoundKey = ''
-				for _, MKey in ipairs(Settings.KeySettings.Key) do
-					--if string.find(KeyMain.Input.InputBox.Text, MKey) then
-					--	KeyFound = true
-					--	FoundKey = MKey
-					--end
+    local inputText = KeyUI.Main.Input.InputBox.Text
+    if #inputText == 0 then return end
 
+    -- 🔁 ПЕРЕЗАГРУЖАЕМ keysraw ПЕРЕД проверкой
+    if Settings.KeySettings.GrabKeyFromSite and Settings.KeySettings.KeySources then
+        local newKeys = {}
+        for _, KeyUrl in ipairs(Settings.KeySettings.KeySources) do
+            local Success, Response = pcall(function()
+                return game:HttpGet(KeyUrl)
+            end)
+            if Success and Response and #Response > 0 then
+                local keys = string.split(Response, "\n")
+                for _, k in ipairs(keys) do
+                    local trimmed = k:gsub("%s+", "")
+                    if trimmed ~= "" then
+                        table.insert(newKeys, trimmed)
+                    end
+                end
+            end
+        end
+        Settings.KeySettings.Key = newKeys
+    end
 
-					-- stricter key check
-					if KeyMain.Input.InputBox.Text == MKey then
-						KeyFound = true
-						FoundKey = MKey
-					end
-				end
+    local KeyFound = false
+    local FoundKey = ''
+    for _, MKey in ipairs(Settings.KeySettings.Key) do
+        if inputText == MKey then
+            KeyFound = true
+            FoundKey = MKey
+            break
+        end
+    end
+
 				if KeyFound then 
 					TweenService:Create(KeyMain, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundTransparency = 1}):Play()
 					TweenService:Create(KeyMain, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Size = UDim2.new(0, 467, 0, 175)}):Play()
