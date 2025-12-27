@@ -1762,10 +1762,15 @@ function RayfieldLibrary:CreateWindow(Settings)
 		end
 
 		if typeof(Settings.KeySettings.Key) == "string" then Settings.KeySettings.Key = {Settings.KeySettings.Key} end
+local keySources
+if Settings.KeySettings.GrabKeyFromSite then
+    -- Сохраняем исходные URL до перезаписи Key
+    keySources = table.clone(Settings.KeySettings.Key)
+end
 
-		if Settings.KeySettings.GrabKeyFromSite then
+if Settings.KeySettings.GrabKeyFromSite then
     local newKeys = {}
-    for i, Key in ipairs(Settings.KeySettings.Key) do
+    for _, Key in ipairs(keySources) do
         local Success, Response = pcall(function()
             local raw = game:HttpGet(Key)
             local keys = string.split(raw, "\n")
@@ -1781,8 +1786,8 @@ function RayfieldLibrary:CreateWindow(Settings)
             warn('Check docs.sirius.menu for help with Rayfield specific development.')
         end
     end
-    -- Обновляем список ключей каждый раз
-    Settings.KeySettings.Key = newKeys
+    Settings.KeySettings.Key = newKeys           -- тут уже список ключей
+    Settings.KeySettings.KeySources = keySources -- а тут URL‑ы
 end
 
 		if not Settings.KeySettings.FileName then
@@ -1830,32 +1835,6 @@ end
 					end
 				end
 			end
-			local function refreshRemoteKeys(Settings)
-    if not (Settings and Settings.KeySettings and Settings.KeySettings.GrabKeyFromSite) then
-        return
-    end
-
-    local newKeys = {}
-
-    for _, KeyUrl in ipairs(Settings.KeySettings.Key) do
-        local Success, Response = pcall(function()
-            return game:HttpGet(KeyUrl)
-        end)
-
-        if Success and Response and #Response > 0 then
-            local lines = string.split(Response, "\n")
-            for _, line in ipairs(lines) do
-                local trimmed = line:gsub("%s+", "")
-                if trimmed ~= "" then
-                    table.insert(newKeys, trimmed)
-                end
-            end
-        end
-    end
-
-    Settings.KeySettings.Key = newKeys
-end
-
 
 			local KeyMain = KeyUI.Main
 			KeyMain.Title.Text = Settings.KeySettings.Title or Settings.Name
@@ -1895,10 +1874,6 @@ end
 
 			KeyUI.Main.Input.InputBox.FocusLost:Connect(function()
 				if #KeyUI.Main.Input.InputBox.Text == 0 then return end
-				if Settings.KeySettings.GrabKeyFromSite then
-    refreshRemoteKeys(Settings)
-end
-
 				local KeyFound = false
 				local FoundKey = ''
 				for _, MKey in ipairs(Settings.KeySettings.Key) do
