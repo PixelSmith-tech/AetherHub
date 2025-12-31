@@ -3337,7 +3337,7 @@ if ToggleSettings.Keybind then
     local bindFlag = (ToggleSettings.Flag or ToggleSettings.Name) .. "_Bind"
 
     local Keybind = Tab:CreateKeybind({
-        Name = "↳  " .. ToggleSettings.Name .. " Keybind",
+        Name = ToggleSettings.Name .. " Keybind",
         CurrentKeybind = ToggleSettings.Keybind,
         HoldToInteract = false,
         Flag = bindFlag,
@@ -3346,12 +3346,8 @@ if ToggleSettings.Keybind then
         end
     })
 
-    -- визуальный отступ
-    Keybind.Element.Position = UDim2.new(0, 20, 0, 0)
-
     ToggleSettings.KeybindObject = Keybind
 end
-
 
 			return ToggleSettings
 		end
