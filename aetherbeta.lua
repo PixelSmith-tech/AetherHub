@@ -1876,7 +1876,7 @@ end
     local inputText = KeyUI.Main.Input.InputBox.Text
     if #inputText == 0 then return end
 
-    -- 🔁 ПЕРЕЗАГРУЖАЕМ keysraw ПЕРЕД проверкой
+
     if Settings.KeySettings.GrabKeyFromSite and Settings.KeySettings.KeySources then
         local newKeys = {}
         for _, KeyUrl in ipairs(Settings.KeySettings.KeySources) do
@@ -3332,6 +3332,22 @@ end
 					Toggle.Switch.UIStroke.Color = SelectedTheme.ToggleEnabledOuterStroke
 				end
 			end)
+
+if ToggleSettings.Keybind then
+    local bindFlag = (ToggleSettings.Flag or ToggleSettings.Name) .. "_Bind"
+
+    local Keybind = Tab:CreateKeybind({
+        Name = ToggleSettings.Name .. " Keybind",
+        CurrentKeybind = ToggleSettings.Keybind,
+        HoldToInteract = false,
+        Flag = bindFlag,
+        Callback = function()
+            ToggleSettings:Set(not ToggleSettings.CurrentValue)
+        end
+    })
+
+    ToggleSettings.KeybindObject = Keybind
+end
 
 			return ToggleSettings
 		end
