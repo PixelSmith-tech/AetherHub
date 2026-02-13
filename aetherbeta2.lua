@@ -28,7 +28,10 @@ local function loadWithTimeout(url: string, timeout: number?): ...any
 	local success, result = false, nil
 
 	local requestThread = task.spawn(function()
-		local fetchSuccess, fetchResult = pcall(game.HttpGet, game, url) -- game:HttpGet(url)
+		local fetchSuccess, fetchResult = pcall(function()
+    return AetherRequest(url)
+end)
+-- game:HttpGet(url)
 		-- If the request fails the content can be empty, even if fetchSuccess is true
 		if not fetchSuccess or #fetchResult == 0 then
 			if #fetchResult == 0 then
@@ -119,6 +122,25 @@ local settingsInitialized = false -- Whether the UI elements in the settings pag
 local cachedSettings
 local prompt = useStudio and require(script.Parent.prompt) or loadWithTimeout('https://raw.githubusercontent.com/SiriusSoftwareLtd/Sirius/refs/heads/request/prompt.lua')
 local requestFunc = (syn and syn.request) or (fluxus and fluxus.request) or (http and http.request) or http_request or request
+local function AetherRequest(url: string)
+    if not requestFunc then
+        local ok, body = pcall(game.HttpGet, game, url)
+        return ok and body or ""
+    end
+
+    local res = requestFunc({
+        Url = url,
+        Method = "GET",
+        Headers = {
+            ["User-Agent"] = "AetherHubClient/1.0",
+            ["X-Aether-Client"] = "Rayfield",
+            ["X-Aether-Version"] = tostring(Release),
+        }
+    })
+
+    return res and res.Body or ""
+end
+
 
 -- Validate prompt loaded correctly
 if not prompt and not useStudio then
@@ -682,26 +704,9 @@ repeat
 until buildAttempts >= 2
 
 Rayfield.Enabled = false
-local Logo = Rayfield.Main.Topbar:FindFirstChild("Logo")
 
-if Logo then
-    Logo.Image = "" -- убираем картинку
-    Logo.BackgroundTransparency = 0
-    Logo.BackgroundColor3 = Color3.fromRGB(85, 60, 200) -- фиолетовый оттенок под Aether
 
-    -- Скругление
-    local corner = Instance.new("UICorner", Logo)
-    corner.CornerRadius = UDim.new(0, 6)
 
-    -- Стильный текстовый логотип
-    local txt = Instance.new("TextLabel", Logo)
-    txt.Size = UDim2.fromScale(1,1)
-    txt.BackgroundTransparency = 1
-    txt.Text = "Æ" -- фирменный символ Aether
-    txt.Font = Enum.Font.GothamBold
-    txt.TextScaled = true
-    txt.TextColor3 = Color3.fromRGB(255,255,255)
-end
 
 
 if gethui then
@@ -1793,7 +1798,7 @@ if Settings.KeySettings.GrabKeyFromSite then
     local newKeys = {}
     for _, Key in ipairs(keySources) do
         local Success, Response = pcall(function()
-            local raw = game:HttpGet(Key)
+    local raw = AetherRequest(Key)
             local keys = string.split(raw, "\n")
             for _, k in ipairs(keys) do
                 local trimmed = k:gsub("%s+", "")
@@ -1902,7 +1907,8 @@ end
         local newKeys = {}
         for _, KeyUrl in ipairs(Settings.KeySettings.KeySources) do
             local Success, Response = pcall(function()
-                return game:HttpGet(KeyUrl)
+            return AetherRequest(KeyUrl)
+
             end)
             if Success and Response and #Response > 0 then
                 local keys = string.split(Response, "\n")
