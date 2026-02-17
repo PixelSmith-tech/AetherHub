@@ -1,0 +1,41 @@
+<Theme name="Bloom">
+    <TextColor r="60" g="40" b="50"/>
+
+    <Background r="255" g="240" b="245"/>
+    <Topbar r="250" g="220" b="225"/>
+    <Shadow r="230" g="190" b="195"/>
+
+    <NotificationBackground r="255" g="235" b="240"/>
+    <NotificationActionsBackground r="245" g="215" b="225"/>
+
+    <TabBackground r="240" g="210" b="220"/>
+    <TabStroke r="230" g="200" b="210"/>
+    <TabBackgroundSelected r="255" g="225" b="235"/>
+    <TabTextColor r="80" g="40" b="60"/>
+    <SelectedTabTextColor r="50" g="30" b="50"/>
+
+    <ElementBackground r="255" g="235" b="240"/>
+    <ElementBackgroundHover r="245" g="220" b="230"/>
+    <SecondaryElementBackground r="255" g="235" b="240"/>
+    <ElementStroke r="230" g="200" b="210"/>
+    <SecondaryElementStroke r="230" g="200" b="210"/>
+
+    <SliderBackground r="240" g="130" b="160"/>
+    <SliderProgress r="250" g="160" b="180"/>
+    <SliderStroke r="255" g="180" b="200"/>
+
+    <ToggleBackground r="240" g="210" b="220"/>
+    <ToggleEnabled r="255" g="140" b="170"/>
+    <ToggleDisabled r="200" g="180" b="185"/>
+    <ToggleEnabledStroke r="250" g="160" b="190"/>
+    <ToggleDisabledStroke r="210" g="180" b="190"/>
+    <ToggleEnabledOuterStroke r="220" g="160" b="180"/>
+    <ToggleDisabledOuterStroke r="190" g="170" b="180"/>
+
+    <DropdownSelected r="250" g="220" b="225"/>
+    <DropdownUnselected r="240" g="210" b="220"/>
+
+    <InputBackground r="255" g="235" b="240"/>
+    <InputStroke r="220" g="190" b="200"/>
+    <PlaceholderColor r="170" g="130" b="140"/>
+</Theme>

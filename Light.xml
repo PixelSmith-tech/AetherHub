@@ -1,0 +1,41 @@
+<Theme name="Light">
+    <TextColor r="40" g="40" b="40"/>
+
+    <Background r="245" g="245" b="245"/>
+    <Topbar r="230" g="230" b="230"/>
+    <Shadow r="200" g="200" b="200"/>
+
+    <NotificationBackground r="250" g="250" b="250"/>
+    <NotificationActionsBackground r="240" g="240" b="240"/>
+
+    <TabBackground r="235" g="235" b="235"/>
+    <TabStroke r="215" g="215" b="215"/>
+    <TabBackgroundSelected r="255" g="255" b="255"/>
+    <TabTextColor r="80" g="80" b="80"/>
+    <SelectedTabTextColor r="0" g="0" b="0"/>
+
+    <ElementBackground r="240" g="240" b="240"/>
+    <ElementBackgroundHover r="225" g="225" b="225"/>
+    <SecondaryElementBackground r="235" g="235" b="235"/>
+    <ElementStroke r="210" g="210" b="210"/>
+    <SecondaryElementStroke r="210" g="210" b="210"/>
+
+    <SliderBackground r="150" g="180" b="220"/>
+    <SliderProgress r="100" g="150" b="200"/>
+    <SliderStroke r="120" g="170" b="220"/>
+
+    <ToggleBackground r="220" g="220" b="220"/>
+    <ToggleEnabled r="0" g="146" b="214"/>
+    <ToggleDisabled r="150" g="150" b="150"/>
+    <ToggleEnabledStroke r="0" g="170" b="255"/>
+    <ToggleDisabledStroke r="170" g="170" b="170"/>
+    <ToggleEnabledOuterStroke r="100" g="100" b="100"/>
+    <ToggleDisabledOuterStroke r="180" g="180" b="180"/>
+
+    <DropdownSelected r="230" g="230" b="230"/>
+    <DropdownUnselected r="220" g="220" b="220"/>
+
+    <InputBackground r="240" g="240" b="240"/>
+    <InputStroke r="180" g="180" b="180"/>
+    <PlaceholderColor r="140" g="140" b="140"/>
+</Theme>

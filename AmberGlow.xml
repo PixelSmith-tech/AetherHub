@@ -1,0 +1,41 @@
+<Theme name="AmberGlow">
+    <TextColor r="255" g="245" b="230"/>
+
+    <Background r="45" g="30" b="20"/>
+    <Topbar r="55" g="40" b="25"/>
+    <Shadow r="35" g="25" b="15"/>
+
+    <NotificationBackground r="50" g="35" b="25"/>
+    <NotificationActionsBackground r="245" g="230" b="215"/>
+
+    <TabBackground r="75" g="50" b="35"/>
+    <TabStroke r="90" g="60" b="45"/>
+    <TabBackgroundSelected r="230" g="180" b="100"/>
+    <TabTextColor r="250" g="220" b="200"/>
+    <SelectedTabTextColor r="50" g="30" b="10"/>
+
+    <ElementBackground r="60" g="45" b="35"/>
+    <ElementBackgroundHover r="70" g="50" b="40"/>
+    <SecondaryElementBackground r="55" g="40" b="30"/>
+    <ElementStroke r="85" g="60" b="45"/>
+    <SecondaryElementStroke r="75" g="50" b="35"/>
+
+    <SliderBackground r="220" g="130" b="60"/>
+    <SliderProgress r="250" g="150" b="75"/>
+    <SliderStroke r="255" g="170" b="85"/>
+
+    <ToggleBackground r="55" g="40" b="30"/>
+    <ToggleEnabled r="240" g="130" b="30"/>
+    <ToggleDisabled r="90" g="70" b="60"/>
+    <ToggleEnabledStroke r="255" g="160" b="50"/>
+    <ToggleDisabledStroke r="110" g="85" b="75"/>
+    <ToggleEnabledOuterStroke r="200" g="100" b="50"/>
+    <ToggleDisabledOuterStroke r="75" g="60" b="55"/>
+
+    <DropdownSelected r="70" g="50" b="40"/>
+    <DropdownUnselected r="55" g="40" b="30"/>
+
+    <InputBackground r="60" g="45" b="35"/>
+    <InputStroke r="90" g="65" b="50"/>
+    <PlaceholderColor r="190" g="150" b="130"/>
+</Theme>

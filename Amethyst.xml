@@ -1,0 +1,41 @@
+<Theme name="Amethyst">
+    <TextColor r="240" g="240" b="240"/>
+
+    <Background r="30" g="20" b="40"/>
+    <Topbar r="40" g="25" b="50"/>
+    <Shadow r="20" g="15" b="30"/>
+
+    <NotificationBackground r="35" g="20" b="40"/>
+    <NotificationActionsBackground r="240" g="240" b="250"/>
+
+    <TabBackground r="60" g="40" b="80"/>
+    <TabStroke r="70" g="45" b="90"/>
+    <TabBackgroundSelected r="180" g="140" b="200"/>
+    <TabTextColor r="230" g="230" b="240"/>
+    <SelectedTabTextColor r="50" g="20" b="50"/>
+
+    <ElementBackground r="45" g="30" b="60"/>
+    <ElementBackgroundHover r="50" g="35" b="70"/>
+    <SecondaryElementBackground r="40" g="30" b="55"/>
+    <ElementStroke r="70" g="50" b="85"/>
+    <SecondaryElementStroke r="65" g="45" b="80"/>
+
+    <SliderBackground r="100" g="60" b="150"/>
+    <SliderProgress r="130" g="80" b="180"/>
+    <SliderStroke r="150" g="100" b="200"/>
+
+    <ToggleBackground r="45" g="30" b="55"/>
+    <ToggleEnabled r="120" g="60" b="150"/>
+    <ToggleDisabled r="94" g="47" b="117"/>
+    <ToggleEnabledStroke r="140" g="80" b="170"/>
+    <ToggleDisabledStroke r="124" g="71" b="150"/>
+    <ToggleEnabledOuterStroke r="90" g="40" b="120"/>
+    <ToggleDisabledOuterStroke r="80" g="50" b="110"/>
+
+    <DropdownSelected r="50" g="35" b="70"/>
+    <DropdownUnselected r="35" g="25" b="50"/>
+
+    <InputBackground r="45" g="30" b="60"/>
+    <InputStroke r="80" g="50" b="110"/>
+    <PlaceholderColor r="178" g="150" b="200"/>
+</Theme>
